@@ -10,6 +10,7 @@ const server = app.listen(PORT, () => {
 
 process.on("SIGINT", () => {
   server.close(() => {
-    console.log("Server closed");
+    console.log("\nServer closed");
+    process.exit(0);
   });
 });
