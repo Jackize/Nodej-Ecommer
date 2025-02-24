@@ -17,14 +17,24 @@ app.use(express.urlencoded({
 require("./dbs/init.mongodb");
 // const { checkOverload } = require("./helpers/check.connect");
 // checkOverload();
+
 // init routes
 app.use("/", require("./routes"));
 
-app.use("/", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello World"
+// init error handler
+app.use((req, res, next) => {
+  const error = new Error("Not Found");
+  error.status = 404;
+  next(error);
+});
+
+app.use((error, req, res, next) => {
+  const statusCode = error.status || 500;
+  return res.status(statusCode).json({
+    status: "error",
+    code: statusCode,
+    message: error.message || "Internal Server Error",
   });
 });
 
-// init error handler
 module.exports = app;
