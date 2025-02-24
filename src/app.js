@@ -8,19 +8,23 @@ const app = express();
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
 
 // init db
 require("./dbs/init.mongodb");
 // const { checkOverload } = require("./helpers/check.connect");
 // checkOverload();
 // init routes
-app.get("/", (req, res) => {
-    const strCompress = "Hello World";
+app.use("/", require("./routes"));
 
+app.use("/", (req, res, next) => {
   return res.status(200).json({
-    message: "Hello World",
-    metadata: strCompress.repeat(10000),
+    message: "Hello World"
   });
 });
+
 // init error handler
 module.exports = app;
