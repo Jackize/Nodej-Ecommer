@@ -5,7 +5,8 @@ const crypto = require('node:crypto');
 const { createTokenPair } = require('../auth/authUtils');
 const KeyTokenService = require('./keyToken.service');
 const { getInfoData } = require('../utils');
-const { BadRequestError } = require('../core/error.response');
+const { BadRequestError, AuthFailureError } = require('../core/error.response');
+const { findByEmail } = require('./shop.service');
 
 const RoleShop = {
     SHOP: 'SHOP',
@@ -37,17 +38,41 @@ class AccessService {
             }
             const tokens = await createTokenPair({ userId: newShop._id, email }, publicKey, privateKey);
             return {
-                code: '201',
-                metadata: {
-                    shop: getInfoData({ fields: ['_id', 'name', 'email'], object: newShop }),
-                    tokens
-                }
+                shop: getInfoData({ fields: ['_id', 'name', 'email'], object: newShop }),
+                tokens
             }
         }
 
         return {
             code: 200,
             metadata: null
+        }
+    }
+
+    static signIn = async ({ email, password, refreshToken }) => {
+        // check email exist
+        const hodelShop = await findByEmail({ email });
+        if (!hodelShop) throw new BadRequestError('Shop not exists');
+
+        // check password
+        const match = await bycrypt.compare(password, hodelShop.password);
+        if (!match) throw new AuthFailureError('Authentication error');
+
+        // create token pair
+        const privateKey = crypto.randomBytes(64).toString('hex');
+        const publicKey = crypto.randomBytes(64).toString('hex');
+
+        // get key token
+        const tokens = await createTokenPair({ userId: hodelShop._id, email }, publicKey, privateKey);
+
+        // save key token
+        const keyStore = await KeyTokenService.createKeyToken({ userId: hodelShop._id, publicKey, privateKey, refreshToken: tokens.refreshToken });
+        if (!keyStore) {
+            throw new Error('Error create key token');
+        }
+        return {
+            shop: getInfoData({ fields: ['_id', 'name', 'email'], object: hodelShop }),
+            tokens
         }
     }
 }

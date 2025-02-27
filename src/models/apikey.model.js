@@ -5,7 +5,7 @@ const { model, Schema, Types } = require('mongoose'); // Erase if already requir
 const DOCUMENT_NAME = 'Apikey';
 const COLLECTION_NAME = 'Apikeys';
 // Declare the Schema of the Mongo model
-var userSchema = new Schema({
+var apikeySchema = new Schema({
     key: {
         type: String,
         required: true,
@@ -26,4 +26,4 @@ var userSchema = new Schema({
 });
 
 //Export the model
-module.exports = model(DOCUMENT_NAME, userSchema);
+module.exports = model(DOCUMENT_NAME, apikeySchema);

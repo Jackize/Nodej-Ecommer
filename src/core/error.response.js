@@ -12,6 +12,7 @@ const ReasonStatusCode = {
     BAD_REQUEST: 'Bad request error',
 };
 
+const { StatusCodes, ReasonPhrases } = require('../utils/httpStatusCode');
 class ErrorResponse extends Error {
     constructor(message, status) {
         super(message);
@@ -32,7 +33,7 @@ class BadRequestError extends ErrorResponse {
 }
 
 class AuthFailureError extends ErrorResponse {
-    constructor(message = ReasonStatusCode.FORBIDDEN, status = StatusCode.FORBIDDEN) {
+    constructor(message = ReasonPhrases.UNAUTHORIZED, status = StatusCodes.UNAUTHORIZED) {
         super(message, status);
     }
 }
