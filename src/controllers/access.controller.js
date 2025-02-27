@@ -20,6 +20,13 @@ class AccessController {
             }
         }).send(res);
     };
+
+    logOut = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Logout OK!',
+            metadata: await AccessService.logOut(req.keyStore)
+        }).send(res);
+    };
 }
 
 module.exports = new AccessController();
