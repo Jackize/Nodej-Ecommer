@@ -25,9 +25,7 @@ class AccessService {
             // decode token
             const { userId } = await verifyJWT(refreshToken, foundToken.privateKey)
             // delete token
-            const a = await KeyTokenService.deleteKeyByUserId(userId)
-            console.log('🚀 ~ AccessService ~ handleRefreshToken= ~ a:', a)
-
+            await KeyTokenService.deleteKeyByUserId(userId)
             throw new ForbiddenError('Something wrong happened !! Please re-login')
         }
         const holderToken = await KeyTokenService.findByRefreshToken(refreshToken)
@@ -57,6 +55,43 @@ class AccessService {
 
         return {
             user: getInfoData({ fields: ['_id', 'name', 'email'], object: foundShop }),
+            tokens
+        }
+    }
+
+    static handleRefreshTokenV2 = async (req) => {
+        const { userId, email } = req.user
+        // check token is used in refreshTokensUsed
+        if (req.keyStore.refreshTokensUsed.includes(req.refreshToken)) {
+            await KeyTokenService.deleteKeyByUserId(userId)
+            throw new ForbiddenError('Something wrong happened !! Please re-login')
+        }
+        // compare refreshToken
+        if (req.keyStore.refreshToken !== req.refreshToken)
+            throw new AuthFailureError('Invalid token')
+
+        const foundShop = await ShopService.findByEmail({ email })
+        if (!foundShop) throw new AuthFailureError('Shop not exists')
+
+        // create token pair
+        const tokens = await createTokenPair(
+            { userId, email },
+            req.keyStore.publicKey,
+            req.keyStore.privateKey
+        )
+
+        // update token
+        await req.keyStore.updateOne({
+            $set: {
+                refreshToken: tokens.refreshToken
+            },
+            $addToSet: {
+                refreshTokensUsed: req.refreshToken
+            }
+        })
+
+        return {
+            user: { userId, email },
             tokens
         }
     }

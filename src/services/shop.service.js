@@ -13,7 +13,7 @@ class ShopService {
             roles: 1
         }
     }) => {
-        return await shopModel.findOne({ email }).select(select).lean()
+        return await shopModel.findOne({ email }).select(select)
     }
 }
 
