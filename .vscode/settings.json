@@ -1,0 +1,12 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "always",
+        "source.organizeImports": "always",
+        "source.sortMembers": "always",
+        "source.addMissingImports": "always",
+        "source.removeUnusedImports": "always"
+    },
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.validate.enable": false
+}

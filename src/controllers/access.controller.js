@@ -1,15 +1,15 @@
-'use strict';
+'use strict'
 
-const { Created, SuccessResponse } = require("../core/success.response");
-const AccessService = require("../services/access.service");
+const { Created, SuccessResponse } = require('../core/success.response')
+const AccessService = require('../services/access.service')
 
 class AccessController {
     signIn = async (req, res, next) => {
         new SuccessResponse({
             message: 'Login OK!',
             metadata: await AccessService.signIn(req.body)
-        }).send(res);
-    };
+        }).send(res)
+    }
 
     signUp = async (req, res, next) => {
         new Created({
@@ -18,15 +18,22 @@ class AccessController {
             options: {
                 limit: 10
             }
-        }).send(res);
-    };
+        }).send(res)
+    }
 
     logOut = async (req, res, next) => {
         new SuccessResponse({
             message: 'Logout OK!',
             metadata: await AccessService.logOut(req.keyStore)
-        }).send(res);
-    };
+        }).send(res)
+    }
+
+    handleRefreshToken = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get token success!',
+            metadata: await AccessService.handleRefreshToken(req.body.refreshToken)
+        }).send(res)
+    }
 }
 
-module.exports = new AccessController();
+module.exports = new AccessController()
