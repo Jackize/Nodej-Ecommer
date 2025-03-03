@@ -1,0 +1,23 @@
+### Create a new product
+POST http://localhost:3001/v1/api/product
+Content-Type: application/json
+x-api-key: 4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
+x-client-id: 67bc4dcba97d8a885845506c
+
+{
+    "type": "Clothing",
+    "payload": {
+        "name": "Product 1",
+        "thumbnail": "https://via.placeholder.com/150",
+        "description": "Product 1 description",
+        "price": 100,
+        "quantity": 100,
+        "shop": "67bc4dcba97d8a885845506c",
+        "type": "Clothing",
+        "attributes": {
+            "brand": "Nike",
+            "size": "M",
+            "material": "Cotton"
+        }
+    }
+}
