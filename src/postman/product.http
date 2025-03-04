@@ -1,8 +1,14 @@
+@url_dev=http://localhost:3001/v1/api
+
+@x-api-key=4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
+@x-client-id=67bc4dcba97d8a885845506c
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2JjNGRjYmE5N2Q4YTg4NTg0NTUwNmMiLCJlbWFpbCI6InNob3AxMEBnbWFpbC5jb20iLCJpYXQiOjE3NDEwNzk5NjEsImV4cCI6MTc0MTI1Mjc2MX0.NvZbQ511RnUcOLYeXizvsqsMXGpfZ1Sy6Q-tgX0gGMk
 ### Create a new product
-POST http://localhost:3001/v1/api/product
+POST {{url_dev}}/product
 Content-Type: application/json
-x-api-key: 4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
-x-client-id: 67bc4dcba97d8a885845506c
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
 
 {
     "type": "Clothing",
@@ -21,3 +27,21 @@ x-client-id: 67bc4dcba97d8a885845506c
         }
     }
 }
+
+# {
+#     "type": "Electronics",
+#     "payload": {
+#         "name": "Iphone 15",
+#         "thumbnail": "https://via.placeholder.com/150",
+#         "description": "Iphone 15 description",
+#         "price": 100,
+#         "quantity": 100,
+#         "shop": "67bc4dcba97d8a885845506c",
+#         "type": "Electronics",
+#         "attributes": {
+#             "manufacturer": "Apple",
+#             "model": "15",
+#             "color": "Red"
+#         }
+#     }
+# }

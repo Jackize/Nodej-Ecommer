@@ -1,9 +1,12 @@
 @url_dev=http://localhost:3001/v1/api
-
+@x-api-key=4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
+@x-client-id=67bc4dcba97d8a885845506c
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2JjNGRjYmE5N2Q4YTg4NTg0NTUwNmMiLCJlbWFpbCI6InNob3AxMEBnbWFpbC5jb20iLCJpYXQiOjE3NDA2NDc5OTMsImV4cCI6MTc0MDgyMDc5M30.VJEi2lq2E2VFwYzaDqBSkOU7YJZiS2DtM1eKzvL8cXA
 ### Sign up
 POST {{url_dev}}/shop/signup
 Content-Type: application/json
-x-api-key: 4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
 
 {
     "name": "shop 1",
@@ -15,7 +18,8 @@ x-api-key: 4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac8270
 ### Sign in
 POST {{url_dev}}/shop/signin
 Content-Type: application/json
-x-api-key: 4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
 
 {
     "email": "shop10@gmail.com",
@@ -26,6 +30,6 @@ x-api-key: 4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac8270
 ### Logout
 POST {{url_dev}}/shop/logout
 Content-Type: application/json
-x-api-key: 4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
-x-client-id: 67bc4dcba97d8a885845506c
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2JjNGRjYmE5N2Q4YTg4NTg0NTUwNmMiLCJlbWFpbCI6InNob3AxMEBnbWFpbC5jb20iLCJpYXQiOjE3NDA2NDc5OTMsImV4cCI6MTc0MDgyMDc5M30.VJEi2lq2E2VFwYzaDqBSkOU7YJZiS2DtM1eKzvL8cXA
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
