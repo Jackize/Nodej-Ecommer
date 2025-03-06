@@ -2,7 +2,7 @@
 
 @x-api-key=4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
 @x-client-id=67bc4dcba97d8a885845506c
-@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2JjNGRjYmE5N2Q4YTg4NTg0NTUwNmMiLCJlbWFpbCI6InNob3AxMEBnbWFpbC5jb20iLCJpYXQiOjE3NDEwNzk5NjEsImV4cCI6MTc0MTI1Mjc2MX0.NvZbQ511RnUcOLYeXizvsqsMXGpfZ1Sy6Q-tgX0gGMk
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2JjNGRjYmE5N2Q4YTg4NTg0NTUwNmMiLCJlbWFpbCI6InNob3AxMEBnbWFpbC5jb20iLCJpYXQiOjE3NDEyNTUwMjMsImV4cCI6MTc0MTQyNzgyM30.pxW9I430L17EifFFT4gMjHVlCXncntKczdGAI23leyA
 ### Create a new product
 POST {{url_dev}}/product
 Content-Type: application/json
@@ -10,38 +10,72 @@ x-api-key: {{x-api-key}}
 x-client-id: {{x-client-id}}
 Authorization: {{accessToken}}
 
+# {
+#     "type": "Clothing",
+#     "payload": {
+#         "name": "Product 2",
+#         "thumbnail": "https://via.placeholder.com/150",
+#         "description": "Product 1 description",
+#         "price": 100,
+#         "quantity": 100,
+#         "shop": "67bc4dcba97d8a885845506c",
+#         "type": "Clothing",
+#         "attributes": {
+#             "brand": "Nike",
+#             "size": "M",
+#             "material": "Cotton"
+#         }
+#     }
+# }
+
 {
-    "type": "Clothing",
+    "type": "Electronics",
     "payload": {
-        "name": "Product 1",
+        "name": "Iphone 17",
         "thumbnail": "https://via.placeholder.com/150",
-        "description": "Product 1 description",
+        "description": "Iphone 17 description",
         "price": 100,
         "quantity": 100,
         "shop": "67bc4dcba97d8a885845506c",
-        "type": "Clothing",
+        "type": "Electronics",
+        "isDraft": false,
+        "isPublished": true,
         "attributes": {
-            "brand": "Nike",
-            "size": "M",
-            "material": "Cotton"
+            "manufacturer": "Apple",
+            "model": "17",
+            "color": "Red"
         }
     }
 }
 
-# {
-#     "type": "Electronics",
-#     "payload": {
-#         "name": "Iphone 15",
-#         "thumbnail": "https://via.placeholder.com/150",
-#         "description": "Iphone 15 description",
-#         "price": 100,
-#         "quantity": 100,
-#         "shop": "67bc4dcba97d8a885845506c",
-#         "type": "Electronics",
-#         "attributes": {
-#             "manufacturer": "Apple",
-#             "model": "15",
-#             "color": "Red"
-#         }
-#     }
-# }
+### Get list Drafts
+GET {{url_dev}}/product/drafts/all
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
+
+### Get list Published
+GET {{url_dev}}/product/published/all
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
+
+### Publish product
+POST {{url_dev}}/product/publish/67c9627e26d762fdf041c2ed
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
+
+
+### Unpublish product
+POST {{url_dev}}/product/unpublish/67c9627e26d762fdf041c2ed
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
+
+
+### Search product
+GET {{url_dev}}/product/search/iphone
+x-api-key: {{x-api-key}}
+
+
