@@ -1,8 +1,9 @@
 @url_dev=http://localhost:3001/v1/api
 
-@x-api-key=4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
-@x-client-id=67bc4dcba97d8a885845506c
-@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2JjNGRjYmE5N2Q4YTg4NTg0NTUwNmMiLCJlbWFpbCI6InNob3AxMEBnbWFpbC5jb20iLCJpYXQiOjE3NDEyNTUwMjMsImV4cCI6MTc0MTQyNzgyM30.pxW9I430L17EifFFT4gMjHVlCXncntKczdGAI23leyA
+@x-api-key=eeabb8e8ea4f13704a9dbdf5ecfc8367
+@x-client-id=67cbfa5e939a8c5af442ad90
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2NiZmE1ZTkzOWE4YzVhZjQ0MmFkOTAiLCJlbWFpbCI6InNob3AxMEBnbWFpbC5jb20iLCJpYXQiOjE3NDE0MjExNTAsImV4cCI6MTc0MTU5Mzk1MH0.-o4GjUnCC0qICk3nlZw2P9UuPQRFhtxlpijH7mCrP_o
+
 ### Create a new product
 POST {{url_dev}}/product
 Content-Type: application/json
@@ -10,43 +11,43 @@ x-api-key: {{x-api-key}}
 x-client-id: {{x-client-id}}
 Authorization: {{accessToken}}
 
-# {
-#     "type": "Clothing",
-#     "payload": {
-#         "name": "Product 2",
-#         "thumbnail": "https://via.placeholder.com/150",
-#         "description": "Product 1 description",
-#         "price": 100,
-#         "quantity": 100,
-#         "shop": "67bc4dcba97d8a885845506c",
-#         "type": "Clothing",
-#         "attributes": {
-#             "brand": "Nike",
-#             "size": "M",
-#             "material": "Cotton"
-#         }
-#     }
-# }
-
 {
-    "type": "Electronics",
+    "type": "Clothing",
     "payload": {
-        "name": "Iphone 17",
+        "name": "Product 2",
         "thumbnail": "https://via.placeholder.com/150",
-        "description": "Iphone 17 description",
+        "description": "Product 1 description",
         "price": 100,
         "quantity": 100,
         "shop": "67bc4dcba97d8a885845506c",
-        "type": "Electronics",
-        "isDraft": false,
-        "isPublished": true,
+        "type": "Clothing",
         "attributes": {
-            "manufacturer": "Apple",
-            "model": "17",
-            "color": "Red"
+            "brand": "Nike",
+            "size": "M",
+            "material": "Cotton"
         }
     }
 }
+
+# {
+#     "type": "Electronics",
+#     "payload": {
+#         "name": "Iphone 17",
+#         "thumbnail": "https://via.placeholder.com/150",
+#         "description": "Iphone 17 description",
+#         "price": 100,
+#         "quantity": 100,
+#         "shop": "67bc4dcba97d8a885845506c",
+#         "type": "Electronics",
+#         "isDraft": false,
+#         "isPublished": true,
+#         "attributes": {
+#             "manufacturer": "Apple",
+#             "model": "17",
+#             "color": "Red"
+#         }
+#     }
+# }
 
 ### Get list Drafts
 GET {{url_dev}}/product/drafts/all
@@ -61,14 +62,14 @@ x-client-id: {{x-client-id}}
 Authorization: {{accessToken}}
 
 ### Publish product
-POST {{url_dev}}/product/publish/67c9627e26d762fdf041c2ed
+POST {{url_dev}}/product/publish/67cbfa9e939a8c5af442ad97
 x-api-key: {{x-api-key}}
 x-client-id: {{x-client-id}}
 Authorization: {{accessToken}}
 
 
 ### Unpublish product
-POST {{url_dev}}/product/unpublish/67c9627e26d762fdf041c2ed
+POST {{url_dev}}/product/unpublish/67cbfa9e939a8c5af442ad97
 x-api-key: {{x-api-key}}
 x-client-id: {{x-client-id}}
 Authorization: {{accessToken}}
@@ -79,3 +80,28 @@ GET {{url_dev}}/product/search/iphone
 x-api-key: {{x-api-key}}
 
 
+### Get list products
+GET {{url_dev}}/product
+x-api-key: {{x-api-key}}
+
+### Get product
+GET {{url_dev}}/product/67cbfa9e939a8c5af442ad97
+x-api-key: {{x-api-key}}
+
+
+### Update product
+PATCH {{url_dev}}/product/67cbfac2939a8c5af442ad9d
+Content-Type: application/json
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
+
+{
+    "type": "Clothing",
+    "payload": {
+        "name": "Product 3",
+        "attributes": {
+            "brand": "NikeS"
+        }
+    }
+}

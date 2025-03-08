@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { product, electronic, clothing } = require('../models/product.model');
-const { BadRequestError } = require('../core/error.response');
+const { product, electronic, clothing } = require('../models/product.model')
+const { BadRequestError } = require('../core/error.response')
 // define Factory class to create products
 class ProductFactory {
     /*
@@ -17,39 +17,30 @@ class ProductFactory {
     static async createProduct(type, payload) {
         switch (type) {
             case 'Clothing':
-                return new Clothing(payload).createProduct();
+                return new Clothing(payload).createProduct()
             case 'Electronics':
-                return new Electronic(payload).createProduct();
+                return new Electronic(payload).createProduct()
             default:
-                throw new BadRequestError(`Invalid product type: ${type}`);
+                throw new BadRequestError(`Invalid product type: ${type}`)
         }
     }
 }
 
 // define base product class
 class Product {
-    constructor({
-        name,
-        thumbnail,
-        description,
-        price,
-        quantity,
-        type,
-        shop,
-        attributes
-    }) {
-        this.name = name;
-        this.thumbnail = thumbnail;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-        this.type = type;
-        this.shop = shop;
-        this.attributes = attributes;
+    constructor({ name, thumbnail, description, price, quantity, type, shop, attributes }) {
+        this.name = name
+        this.thumbnail = thumbnail
+        this.description = description
+        this.price = price
+        this.quantity = quantity
+        this.type = type
+        this.shop = shop
+        this.attributes = attributes
     }
 
     async createProduct(id) {
-        return await product.create({ ...this, _id: id });
+        return await product.create({ ...this, _id: id })
     }
 }
 
@@ -57,11 +48,11 @@ class Product {
 class Clothing extends Product {
     async createProduct() {
         const newClothing = await clothing.create({ ...this.attributes, shop: this.shop })
-        if (!newClothing) throw new BadRequestError('Create new clothing error');
+        if (!newClothing) throw new BadRequestError('Create new clothing error')
 
-        const newProduct = await super.createProduct(newClothing._id);
-        if (!newProduct) throw new BadRequestError('Create new product error');
-        return newProduct;
+        const newProduct = await super.createProduct(newClothing._id)
+        if (!newProduct) throw new BadRequestError('Create new product error')
+        return newProduct
     }
 }
 
@@ -69,12 +60,12 @@ class Clothing extends Product {
 class Electronic extends Product {
     async createProduct() {
         const newElectronic = await electronic.create({ ...this.attributes, shop: this.shop })
-        if (!newElectronic) throw new BadRequestError('Create new electronic error');
+        if (!newElectronic) throw new BadRequestError('Create new electronic error')
 
-        const newProduct = await super.createProduct(newElectronic._id);
-        if (!newProduct) throw new BadRequestError('Create new product error');
-        return newProduct;
+        const newProduct = await super.createProduct(newElectronic._id)
+        if (!newProduct) throw new BadRequestError('Create new product error')
+        return newProduct
     }
 }
 
-module.exports = ProductFactory;
+module.exports = ProductFactory
