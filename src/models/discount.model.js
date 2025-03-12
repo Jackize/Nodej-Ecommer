@@ -29,7 +29,8 @@ var discountSchema = new Schema(
         code: {
             // mã giảm giá
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         startDate: {
             type: Date,
@@ -54,11 +55,6 @@ var discountSchema = new Schema(
             type: [Types.ObjectId],
             ref: 'User',
             default: []
-        },
-        isUsed: {
-            // trạng thái mã giảm giá đã sử dụng
-            type: Boolean,
-            default: false
         },
         minOrderValue: {
             // giá trị đơn hàng tối thiểu

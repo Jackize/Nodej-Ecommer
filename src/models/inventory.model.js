@@ -13,7 +13,7 @@ var inventorySchema = new Schema(
         },
         stock: {
             type: Number,
-            required: true,
+            required: true
         },
         location: {
             type: String,
@@ -36,5 +36,5 @@ var inventorySchema = new Schema(
 
 //Export the model
 module.exports = {
-    inventory: model(DOCUMENT_NAME, inventorySchema),
+    inventory: model(DOCUMENT_NAME, inventorySchema)
 }
