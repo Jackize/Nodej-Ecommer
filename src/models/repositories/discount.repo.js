@@ -3,13 +3,8 @@
 const { convertToObjectId, unSelectData, getSelectData } = require('../../utils')
 const { discount } = require('../discount.model')
 
-const findDiscountByCode = async ({ code, shopId }) => {
-    return await discount
-        .findOne({
-            code,
-            shopId: convertToObjectId(shopId)
-        })
-        .lean()
+const findDiscountByCode = async (model, filter) => {
+    return await model.findOne(filter).lean()
 }
 
 const findAllDiscountCodesUnSelect = async ({

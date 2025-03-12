@@ -40,11 +40,7 @@ class DiscountService {
             maxUsesPerUser
         } = payload
 
-        if (
-            new Date() > new Date(startDate) ||
-            new Date() > new Date(endDate) ||
-            new Date(startDate) > new Date(endDate)
-        ) {
+        if (new Date(startDate) > new Date(endDate)) {
             throw new BadRequestError('Start date or end date is invalid')
         }
 
@@ -53,7 +49,10 @@ class DiscountService {
         }
 
         // check if code is already exists
-        const foundDiscount = await findDiscountByCode({ code, shopId })
+        const foundDiscount = await findDiscountByCode(discountModel, {
+            code,
+            shopId: convertToObjectId(shopId)
+        })
 
         if (foundDiscount && discount.isActive) {
             throw new BadRequestError('Discount code already exists')
@@ -71,12 +70,17 @@ class DiscountService {
         })
     }
 
-    static async updateDiscountCode() {}
-
+    /*
+        Get all products with discount codes
+    */
     static async getAllProductsWithDiscountCodes({ code, shopId, userId, limit, page }) {
-        const foundDiscount = await findDiscountByCode({ code, shopId })
+        const foundDiscount = await findDiscountByCode(discountModel, {
+            code,
+            shopId: convertToObjectId(shopId),
+            isActive: true
+        })
 
-        if (!foundDiscount || !foundDiscount.isActive) {
+        if (!foundDiscount) {
             throw new NotFoundError('Discount code not found')
         }
 
@@ -113,6 +117,9 @@ class DiscountService {
         }
     }
 
+    /*
+        Get all discount codes by shop
+    */
     static async getAllDiscountCodesByShop({ shopId, limit, page }) {
         const discounts = await findAllDiscountCodesUnSelect({
             limit,
@@ -124,6 +131,96 @@ class DiscountService {
 
         return discounts
     }
+
+    /*
+        Apply discount code
+    */
+    static async getDiscountAmount({ code, userId, products, shopId }) {
+        const foundDiscount = await findDiscountByCode(discountModel, {
+            code,
+            shopId: convertToObjectId(shopId),
+            isActive: true
+        })
+
+        if (!foundDiscount) {
+            throw new NotFoundError('Discount code not found')
+        }
+
+        const {
+            maxUses,
+            maxUsesPerUser,
+            usesCount,
+            startDate,
+            endDate,
+            minOrderValue,
+            usersUsed,
+            ...rest
+        } = foundDiscount
+
+        if (new Date() < new Date(startDate) || new Date() > new Date(endDate)) {
+            throw new BadRequestError('Discount code is not active')
+        }
+
+        if (maxUses && usesCount >= maxUses) {
+            throw new BadRequestError('Discount code is not active')
+        }
+        let totalPrice = 0
+
+        if (!minOrderValue) {
+            throw new BadRequestError('Min order value is not set')
+        }
+
+        if (minOrderValue > 0) {
+            totalPrice = products.reduce(
+                (acc, product) => acc + product.price * product.quantity,
+                0
+            )
+        }
+
+        if (totalPrice < minOrderValue) {
+            throw new BadRequestError('Discount code is not active')
+        }
+
+        if (maxUsesPerUser && usersUsed.includes(userId)) {
+            throw new BadRequestError('You have already used this discount code')
+        }
+
+        const amount = rest.applyFor === 'fixed' ? rest.value : (totalPrice * rest.value) / 100
+
+        return {
+            totalPrice,
+            discount: amount,
+            totalPriceAfterDiscount: totalPrice - amount
+        }
+    }
+
+    static async deleteDiscountCode({ code, shopId }) {
+        const foundDiscount = await findDiscountByCode(discountModel, {
+            code,
+            shopId: convertToObjectId(shopId)
+        })
+
+        if (!foundDiscount) {
+            throw new NotFoundError('Discount code not found')
+        }
+
+        await discountModel.findByIdAndDelete(foundDiscount._id)
+
+        return foundDiscount
+    }
+
+    static async cancelDiscountCode({ code, shopId }) {
+        const foundDiscount = await findDiscountByCode(discountModel, {
+            code,
+            shopId: convertToObjectId(shopId)
+        })
+
+        if (!foundDiscount) {
+            throw new NotFoundError('Discount code not found')
+        }
+
+        await discountModel.findByIdAndUpdate(foundDiscount._id, { isActive: false })
+    }
 }
 
-module.exports = new DiscountService()
+module.exports = DiscountService

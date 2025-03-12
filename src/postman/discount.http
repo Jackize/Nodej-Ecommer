@@ -1,0 +1,74 @@
+@url_dev=http://localhost:3001/v1/api
+@x-api-key=eeabb8e8ea4f13704a9dbdf5ecfc8367
+@x-client-id=67d175cb2ad03bce9377e7a7
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2QxNzVjYjJhZDAzYmNlOTM3N2U3YTciLCJlbWFpbCI6InNob3AxMEBnbWFpbC5jb20iLCJpYXQiOjE3NDE3ODA0MjcsImV4cCI6MTc0MTk1MzIyN30.MnG3wL8baP1yCJ4net76lPLW89diZrr4SlM4CS0bksA
+
+### Create discount code
+POST {{url_dev}}/discount/create
+Content-Type: application/json
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
+
+{
+    "name": "Discount 15%",
+    "code": "DISCOUNT15",
+    "type": "percentage",
+    "value": 15,
+    "startDate": "2025-03-13",
+    "endDate": "2025-03-15",
+    "description": "Discount 15%",
+    "isActive": true,
+    "applyFor": "all",
+    "minOrderValue": 100,
+    "maxUses": 100,
+    "maxUsesPerUser": 100
+}
+
+
+### Get all products with discount codes
+GET {{url_dev}}/discount/getAllProductsWithDiscountCodes
+Content-Type: application/json
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
+
+{
+    "code": "DISCOUNT10",
+    "shopId": "67d175cb2ad03bce9377e7a7"
+}
+
+
+### Get all discount codes by shop
+GET {{url_dev}}/discount/getAllDiscountCodesByShop
+Content-Type: application/json
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
+
+{
+    "shopId": "67d175cb2ad03bce9377e7a7"
+}
+
+
+### Get discount amount
+GET {{url_dev}}/discount/getDiscountAmount
+Content-Type: application/json
+x-api-key: {{x-api-key}}
+x-client-id: {{x-client-id}}
+Authorization: {{accessToken}}
+
+{
+    "code": "DISCOUNT15",
+    "userId": "67d175cb2ad03bce9377e7a7",
+    "products": [
+        {
+            "productId": "67d175cb2ad03bce9377e7a7",
+            "quantity": 1,
+            "price": 100
+        }
+    ],
+    "shopId": "67d175cb2ad03bce9377e7a7"
+}
+
+
