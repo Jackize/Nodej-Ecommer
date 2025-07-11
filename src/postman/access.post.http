@@ -2,6 +2,15 @@
 @x-api-key=4807c7e351d75530f661408c6d4043b6bfd6671a3a82ff20a9f2135e8cebb15ac82705c1a92d65a88eb4c30066f17958d0fe817915940893589a021fb7d5b17b
 @x-client-id=67bc4dcba97d8a885845506c
 @accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2JjNGRjYmE5N2Q4YTg4NTg0NTUwNmMiLCJlbWFpbCI6InNob3AxMEBnbWFpbC5jb20iLCJpYXQiOjE3NDA2NDc5OTMsImV4cCI6MTc0MDgyMDc5M30.VJEi2lq2E2VFwYzaDqBSkOU7YJZiS2DtM1eKzvL8cXA
+
+### Create api key
+POST {{url_dev}}/apiKey
+Content-Type: application/json
+
+{
+    "permissions": "0000"
+}
+
 ### Sign up
 POST {{url_dev}}/shop/signup
 Content-Type: application/json

@@ -1,17 +1,24 @@
 'use strict'
 
-const apikeyModel = require('../models/apikey.model')
+const { BadRequestError } = require('../core/error.response')
+const apiKeyModel = require('../models/apikey.model')
 const crypto = require('node:crypto')
 
-class ApikeyService {
+class ApiKeyService {
+    static createApiKey = async (permissions) => {
+        if (!permissions) throw new BadRequestError('Permissions are required')
+        const key = crypto.randomBytes(16).toString('hex')
+        const objKey = await apiKeyModel.create({
+            key,
+            permissions
+        })
+        return objKey
+    }
+
     static findById = async (key) => {
-        // await apikeyModel.create({
-        //     key: crypto.randomBytes(16).toString('hex'),
-        //     permissions: ['0000']
-        // })
-        const objKey = await apikeyModel.findOne({ key, status: true }).lean()
+        const objKey = await apiKeyModel.findOne({ key, status: true }).lean()
         return objKey
     }
 }
 
-module.exports = ApikeyService
+module.exports = ApiKeyService

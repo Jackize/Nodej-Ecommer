@@ -36,7 +36,7 @@ class CartService {
         })
     }
 
-    static async addToCartOptimisticLock({ userId, product = {} }) {
+    static async addToCartOptimisticLock({ userId, shopOrderIds = {} }) {
         const { productId, quantity, oldQuantity } = shopOrderIds[0]?.itemProducts[0]
         // found product
         const foundProduct = await findProductById({ productId })
@@ -54,6 +54,22 @@ class CartService {
             userId,
             product: { productId, quantity: quantity - oldQuantity }
         })
+    }
+
+    static async deleteUserCart({ userId, productId }) {
+        const query = { userId, status: true },
+            updateSet = {
+                $pull: {
+                    products: { productId }
+                }
+            }
+        const deleteCart = await cartModel.updateOne(query, updateSet)
+
+        return deleteCart
+    }
+
+    static async getListUserCart({ userId }) {
+        return await cartModel.findOne({ userId }).lean()
     }
 }
 

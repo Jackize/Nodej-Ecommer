@@ -1,6 +1,6 @@
 'use strict'
 
-const ApikeyService = require('../services/apikey.service')
+const ApikeyService = require('../services/apiKey.service')
 
 const HEADER = {
     API_KEY: 'x-api-key',
@@ -25,7 +25,7 @@ const apiKey = async (req, res, next) => {
         req.objKey = objKey
         return next()
     } catch (error) {
-        console.log('🚀 ~ apiKey ~ error:', error)
+        throw new BadRequestError('Invalid API Key')
     }
 }
 
