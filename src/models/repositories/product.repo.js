@@ -96,6 +96,21 @@ const findProductById = async ({ productId }) => {
     return await product.findById(productId).lean()
 }
 
+const checkProductsExist = async (products) => {
+    return await Promise.all(
+        products.map(async (product) => {
+            const foundProduct = await findProductById({ productId: product._id })
+            if (foundProduct) {
+                return {
+                    price: foundProduct.price,
+                    quantity: product.quantity,
+                    productId: product._id
+                }
+            }
+        })
+    )
+}
+
 module.exports = {
     findAllDrafts,
     publishProductByShop,
@@ -105,5 +120,6 @@ module.exports = {
     findAllProducts,
     findProduct,
     updateProductById,
-    findProductById
+    findProductById,
+    checkProductsExist
 }
